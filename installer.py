@@ -5,21 +5,21 @@ import zipfile
 
 # Variables
 
-config_pname = 'Skeleton'
+config_pname: str = 'Skeleton'
 config_pkg = 'doesn\'t'
 config_wb = 'aguilaair.tech'
 
 
-print('''Hello and welcome to the installer for {0} this is a python program which {1} require packages.
+print(f'''Hello and welcome to the installer for {config_pname} this is a python program which {config_pkg} require packages.
  We are going to install on you system: 
  - Package 1
  - Package 2
-This installer was created by Aguilaair'''.format(config_pname, config_pkg))
+This installer was created by Aguilaair''')
 
 
 def download(url: object, fname: object) -> object:
     if input('Do you wanna continue with the installation? (Y/n)') == 'Y':
-        print('Thanks, lets proceed with the installation of {0}!'.format(config_pname))
+        print(f'Thanks, lets proceed with the installation of {config_pname}!')
         # install software here
         # noinspection PyBroadException
         try:
