@@ -2,13 +2,14 @@ import time
 import urllib.request
 import os.path
 import zipfile
+import hashlib
 
 # Variables
 
 config_pname: str = 'Skeleton'
 config_pkg = 'doesn\'t'
 config_wb = 'aguilaair.tech'
-
+is_enc = True
 
 print(f'''Hello and welcome to the installer for {config_pname} this is a python program which {config_pkg} require packages.
  We are going to install on you system: 
@@ -17,9 +18,19 @@ print(f'''Hello and welcome to the installer for {config_pname} this is a python
 This installer was created by Aguilaair''')
 
 
+def decrypt(passw):
+    if hashlib.sha256(passw.encode()).hexdigest() == '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2':
+        print('Password accepted!')
+        passw_: bool = True
+    else:
+        print('Password rejected!')
+        passw_: bool = False
+    return passw_
+
+
 def download(url: object, fname: object) -> object:
     if input('Do you wanna continue with the installation? (Y/n)') == 'Y':
-        print(f'Thanks, lets proceed with the installation of {config_pname}!')
+        print('Thanks, lets proceed with the installation of {config_pname}!')
         # install software here
         # noinspection PyBroadException
         try:
@@ -79,11 +90,30 @@ def unzip(fname, pth2extract):
     return uz
 
 
-if download('https://aguilaair.tech/skeleton.zip', 'program.zip'):
-    if unzip('program.zip', './'):
-        print('You can now use ' + config_pname)
+if is_enc:
+    if decrypt(input('This program is protected by a password, please enter it: ')):
+        if download('https://aguilaair.tech/skeleton.zip', 'program.zip'):
+            if unzip('program.zip', './'):
+                print('You can now use ' + config_pname)
 
+        else:
+            print('Closing program in 3 seconds. Try reopening it to run the install')
+            time.sleep(3)
+            exit(1)
+    else:
+        print('INCORRECT PASSWORD! Closing program in 3 seconds. Try reopening it to run the install')
+        time.sleep(3)
+        exit(1)
 else:
-    print('Closing program in 3 seconds. Try reopening it to run the install')
-    time.sleep(3)
-    exit(1)
+    if download('https://aguilaair.tech/skeleton.zip', 'program.zip'):
+        if unzip('program.zip', './'):
+            print('You can now use ' + config_pname)
+
+        else:
+            print('Closing program in 3 seconds. Try reopening it to run the install')
+            time.sleep(3)
+            exit(1)
+    else:
+        print('Unexpected error! Closing program in 3 seconds. Try reopening it to run the install')
+        time.sleep(3)
+        exit(1)
