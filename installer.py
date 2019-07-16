@@ -10,6 +10,8 @@ config_pname: str = 'My App'
 config_pkg = 'doesn\'t'
 config_wb = 'aguilaair.tech'
 is_enc = True
+enc_hash = '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2'
+target_file = 'https://aguilaair.tech/skeleton.zip'
 
 print(f'''
 
@@ -46,7 +48,7 @@ This installer was created by Aguilaair''')
 
 
 def decrypt(passw):
-    if hashlib.sha256(passw.encode()).hexdigest() == '4813494d137e1631bba301d5acab6e7bb7aa74ce1185d456565ef51d737677b2':
+    if hashlib.sha256(passw.encode()).hexdigest() == enc_hash:
         print('Password accepted!')
         passw_: bool = True
     else:
@@ -119,7 +121,7 @@ def unzip(fname, pth2extract):
 
 if is_enc:
     if decrypt(input('This program is protected by a password, please enter it: ')):
-        if download('https://aguilaair.tech/skeleton.zip', 'program.zip'):
+        if download(target_file, 'program.zip'):
             if unzip('program.zip', './'):
                 print('You can now use ' + config_pname)
 
@@ -132,7 +134,7 @@ if is_enc:
         time.sleep(3)
         exit(1)
 else:
-    if download('https://aguilaair.tech/skeleton.zip', 'program.zip'):
+    if download(target_file, 'program.zip'):
         if unzip('program.zip', './'):
             print('You can now use ' + config_pname)
 
